@@ -1,0 +1,47 @@
+<div class="col-lg-offset-3 col-lg-6 fr-view">
+
+
+<h2><%= @article.title %></h2>
+<div style="font-size: 16px; color: #4d4a4a" class="fr-view"><%= @article.text.html_safe %></div>
+<div class="clearfix"></div>
+
+<% if user_signed_in? %>
+  <div class="" style="margin-top: 5px">
+    <%= link_to 'Edit', edit_article_path(@article) %>
+    <%= link_to 'Delete', article_path(@article), method: :delete, data: {confirm: 'A u sure?'}, :style =>'display: inline-block; margin-left: 5px' %>
+  </div>
+<% end %>
+
+<%= link_to 'Read more articles', articles_path, style: 'font-size: 16px; font-weight: bold' %>
+
+<br>
+<br>
+
+<% if user_signed_in? %>
+  <%= form_for ([@article, Comment.new]) do |f| %>
+    <p>
+      Comment as: <%= current_user.username %>
+    </p>
+    <p>
+      <%= f.text_area :body, class: 'form-control' %>
+    </p>
+    <%= f.submit "Create comment", class: 'btn btn-warning' %>
+    <% end %>
+<% end %>
+
+<% @article.comments.each do |comment| %>
+
+  <div class="" style="border-top:1px solid #f0ebeb; margin:15px; margin-left: 0px "></div>
+    <p style="font-size: 10px">
+      <%= comment.created_at %>
+    </p>
+    <p style="font-style: italic">
+      <%= comment.author %> sayd:
+    </p>
+    <p>
+      <%= comment.body %>
+    </p>
+
+
+<% end %>
+</div>

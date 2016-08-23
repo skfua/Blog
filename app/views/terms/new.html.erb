@@ -1,0 +1,13 @@
+<h1>New Term</h1>
+
+<%= form_for :term, url: '/terms' do |f| %>
+  <p>
+    Title <br>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    Text <br>
+    <%= f.text_area :body %>
+  </p>
+  <%= f.submit "Create term" %>
+<% end %>
