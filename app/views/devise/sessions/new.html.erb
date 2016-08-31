@@ -1,34 +1,36 @@
+<div class="col-lg-offset-3 col-lg-6 fr-view">
+
 <h2 style='margin-left:10px'>Log in</h2>
 <br>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'form-horizontal') do |f| %>
 
   <div class="form-group">
-    <%= f.label :username, class: 'col-sm-2 control-label' %>
-    <div class="col-sm-10">
-    <%= f.text_field :username, autofocus: true, class: 'form-control', style: 'width: 50%' %>
+    <%= f.label :username, class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+    <%= f.text_field :username, autofocus: true, class: 'form-control' %>
     <br>
     </div>
   </div>
 
 
   <div class="form-group">
-    <%= f.label :password, class: 'col-sm-2 control-label' %><br />
-    <div class="col-sm-10">
-    <%= f.password_field :password, autocomplete: "off", class: 'form-control', style: 'width: 50%' %>
+    <%= f.label :password, class: 'col-sm-3 control-label' %><br />
+    <div class="col-sm-9">
+    <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
     </div>
 
   </div>
   <% if devise_mapping.rememberable? %>
-    <div class="col-sm-offset-2 col-sm-10" style="margin-top: 10px">
+    <div class="col-sm-offset-3 col-sm-9" style="margin-top: 10px">
       <%= f.check_box :remember_me %>
       <%= f.label :remember_me %>
     </div>
   <% end %>
 
-  <div class="col-sm-offset-2 col-sm-10" style="margin-top: 10px; position: relative">
+  <div class="col-sm-offset-3 col-sm-9" style="margin-top: 10px; position: relative">
     <%= f.submit "Log in", class: 'btn btn-primary' %>
-    <div style="position: absolute; left: 30%; top: -4px">
+    <div style="position: absolute; left: 70%; top: -4px">
     <%= render "devise/shared/links" %>
     </div>
   </div>
@@ -38,3 +40,5 @@
 
   </div>
 <% end %>
+
+</div>

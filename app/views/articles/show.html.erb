@@ -1,11 +1,27 @@
 <div class="col-lg-offset-3 col-lg-6 fr-view">
 
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[0] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[1] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[2] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[3] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[4] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[5] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[6] %> "></div>
+  <div class="" style="width: 50px; height: 50px; display: inline-block; background-color: <%= @colors.to_hex[7] %> "></div>
 
-<h2><%= @article.title %></h2>
+<h1 style="font-weight: bold; margin-top: 5px"><%= @article.title %></h1>
+<div class="clearfix" style="margin-bottom: 20px;">
+  <p style="float: left;" class="clearfix">
+    <%= Time.at(@article.created_at).to_formatted_s(:day_month) %>
+  </p>
+  <p style="display: inline-block; float: left; margin-left: 15px">
+    Author: <strong><%= @user.username %></strong>
+  </p>
+</div>
 <div style="font-size: 16px; color: #4d4a4a" class="fr-view"><%= @article.text.html_safe %></div>
 <div class="clearfix"></div>
 
-<% if user_signed_in? %>
+<% if user_signed_in? && @article.user_id == current_user.id %>
   <div class="" style="margin-top: 5px">
     <%= link_to 'Edit', edit_article_path(@article) %>
     <%= link_to 'Delete', article_path(@article), method: :delete, data: {confirm: 'A u sure?'}, :style =>'display: inline-block; margin-left: 5px' %>

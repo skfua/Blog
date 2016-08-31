@@ -5,13 +5,13 @@
         <title>Blog</title>
         <%= csrf_meta_tags %>
 
-        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
         <!-- Latest compiled and minified CSS -->
         <!-- Latest compiled and minified JavaScript -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
 
     </head>
 
@@ -19,11 +19,24 @@
       <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <div class="navbar-header">
-            <%= link_to 'SKFBLOG', root_path, class: 'navbar-brand' %></li>
+            <a href="<%= root_path %>" style="color: black; font-size: 20px; font-weight: bold; float: left; padding: 11px" class="brand">
+              <p class="word-logo" style="background-color:white; padding: 0px 8px; display: inline-block; margin-bottom: 0">
+                S
+              </p>
+              <p class="word-logo" style="background-color:white; padding: 0px 8px; display: inline-block; margin-bottom: 0;margin-left: -1.5px">
+                K
+              </p>
+              <p class="word-logo" style="background-color:white; padding: 0px 8px; display: inline-block; margin-bottom: 0;margin-left: -1.5px">
+                F
+              </p>
+            </a>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li id="create"><%= link_to 'Create', new_article_path %></li>
+              <% if user_signed_in? %>
+              <li id="create"><%= link_to 'Create Post', new_article_path %></li>
+              <% end %>
+              <li id="event"><a href="/events/1">Event</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
 

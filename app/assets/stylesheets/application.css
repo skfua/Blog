@@ -10,8 +10,6 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  *= require froala_editor.min.css
  *= require froala_style.min.css
  *= require font-awesome
@@ -28,7 +26,13 @@
  *= require plugins/table.min.css
  *= require plugins/video.min.css
  *= require themes/royal.min.css
+ *= require_tree .
+ *= require_self
  */
+
+.navbar-inverse {
+   margin-bottom: 0
+ }
 
  .ultrasmallcell {
        height: 1px;
@@ -52,4 +56,30 @@
 
 .fr-view table tbody tr .noborders, fr-view table thead tr .noborders {
      border: 0px;
+}
+
+.alert-notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.brand:hover {
+  text-decoration: none;
+
+}
+
+.word-logo:hover {
+  background-color: rgb(208, 202, 202);
+}
+
+img {
+  vertical-align: baseline;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }

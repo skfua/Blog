@@ -4,20 +4,28 @@
 <% @articles.each do |article| %>
   <div class="col-lg-3" style="margin-top:15px;">
 
-    <div class="" style="display: inline-block; width: 100%; background-color: black; padding: 15px">
+    <div class="article-index" style="">
+      <div class="article-img" style="">
+        <a href="<%= article_path(article)%>" class="article-thumb" style="background-image: url('<%= article.image.thumb.url %>');"></a>
+      </div>
+      <p class="article-title" style=""><%= link_to truncate(article.title, length: 90), article_path(article), :style =>'color: black'%></p>
+      <div style="" class="article-fabula"><%= article.fabula %></div>
+      <p style="float: right; margin-right: 15px">
+        <%= Time.at(article.created_at).to_formatted_s(:day_month) %>
+      </p>
 
-      <p style="font-size: 16px; font-weight: bold; color: white"><%= link_to truncate(article.title, length: 90), article_path(article), :style =>'color: white'%></p>
-      <div style="color:white; height: 45px; overflow: hidden"><%= article.fabula %></div>
-
-      <% if user_signed_in? %>
-      <div class="" style="margin-top: 5px">
+      <% if user_signed_in? && current_user.id == article.user_id %>
+      <div class="" style="margin-top: 5px; margin-left: 15px">
         <%= link_to 'Edit', edit_article_path(article) %>
         <%= link_to 'Delete', article_path(article), method: :delete, data: {confirm: 'A u sure?'}, :style =>'display: inline-block; margin-left: 5px' %>
       </div>
+      <% else %>
+      <p style="margin-top: 5px; margin-left: 15px">
+        Author: <a href="<%= user_articles_path(article.user_id) %>"><strong><%= User.find(article.user_id).username %></strong></a>
+      </p>
       <% end %>
 
     </div>
   </div>
 <% end %>
-
 </div>

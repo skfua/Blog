@@ -15,10 +15,16 @@ $(function () {
   });
 });
 </script>
-<h1 style="margin-left: 25px">New Article</h1>
 
-<div class="col-lg-6">
+<% if @error %>
 
+  <%= @error %>
+
+<% end %>
+
+<div class=" col-lg-offset-3 col-lg-6">
+
+  <h1 style="margin-left: 15px">New Article</h1>
 
 
 <%= form_for :article, url: '/articles', class: 'form-horizontal' do |f| %>
@@ -38,6 +44,16 @@ $(function () {
       <br>
     </div>
 </div>
+
+<div class="form-group">
+  <%= f.label :image, class: 'col-sm-1 control-label' %>
+  <div class="col-sm-11">
+    <%= f.file_field :image, class: 'form-control' %>
+    <br>
+  </div>
+</div>
+
+
 
 <div class="form-group">
     <%= f.label :text, class: 'col-sm-1 control-label' %>
