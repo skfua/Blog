@@ -37,22 +37,32 @@ class EventsController < ApplicationController
         @secondary_color.push(x)
       end
 
-      @secondary_color[2] = (@secondary_color[2].to_f + 13).to_s + "%"
+      @secondary_color[2] = (@secondary_color[2].to_f + 10).to_s + "%"
 
       @text_color = []
-      text_color = @colors[0]
 
-      text_color.each do |x|
+      @colors[0].each do |x|
         @text_color.push(x)
+      end
+
+      @secondary_text = []
+
+      @colors[1].each do |x|
+        @secondary_text.push(x)
       end
 
       while @text_color[2].to_f - @bg_color[2].to_f <= 70 do
         @text_color[2] = (@text_color[2].to_f + 5).to_s + "%"
       end
 
+      while @secondary_text[2].to_f - @secondary_color[2].to_f <= 30 do
+        @secondary_text[2] = (@secondary_text[2].to_f + 5).to_s + "%"
+      end
+
     end
 
     if @luminosity >= 100
+
       @bg_color = @colors[0]
 
       @secondary_color = []
@@ -64,20 +74,26 @@ class EventsController < ApplicationController
       @secondary_color[2] = (@secondary_color[2].to_f + 10).to_s + "%"
 
       @text_color = []
-      text_color = @colors[3]
 
-      text_color.each do |x|
+      @colors[3].each do |x|
         @text_color.push(x)
       end
+
+      @secondary_text = []
+
+      @colors[1].each do |x|
+        @secondary_text.push(x)
+      end
+
+      while @secondary_color[2].to_f - @bg_color[2].to_f <= 20 do
+        @secondary_color[2] = (@secondary_color[2].to_f + 5).to_s + "%"
+      end
+
+      while @secondary_text[2].to_f - @secondary_color[2].to_f >= 15 do
+        @secondary_text[2] = (@secondary_text[2].to_f - 5).to_s + "%"
+      end
+
     end
-
-    # while @secondary_color[2].to_f - @bg_color[2].to_f <= 10 do
-    #   @secondary_color[2] = (@secondary_color[2].to_f + 5).to_s + "%"
-    # end
-
-
-
-
 
   end
 
