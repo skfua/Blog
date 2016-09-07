@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
-  Miro.options[:method] = 'histogram'
-  Miro.options[:color_count] = 4
+
+  include Miro
+
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   # GET /events
@@ -12,89 +13,6 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
-    colors = Miro::DominantColors.new('http://localhost:3000/' + @event.image.thumb3.url)
-    @colors = colors.to_hsl.sort {|a,b| b[2] <=> a[2]}
-
-    @colors.each do |hsl|
-      hsl[0] = (hsl[0]*360).to_s
-      hsl[1] = (hsl[1]*100).to_s+"%"
-      hsl[2] = (hsl[2]*100).to_s+"%"
-    end
-
-    @luminosity = 0
-
-    @colors.each do |hsl|
-      @luminosity += hsl[2].to_f
-    end
-
-    if @luminosity <= 100
-      @bg_color = @colors[3]
-
-      @secondary_color = []
-
-      @bg_color.each do |x|
-        @secondary_color.push(x)
-      end
-
-      @secondary_color[2] = (@secondary_color[2].to_f + 10).to_s + "%"
-
-      @text_color = []
-
-      @colors[0].each do |x|
-        @text_color.push(x)
-      end
-
-      @secondary_text = []
-
-      @colors[1].each do |x|
-        @secondary_text.push(x)
-      end
-
-      while @text_color[2].to_f - @bg_color[2].to_f <= 70 do
-        @text_color[2] = (@text_color[2].to_f + 5).to_s + "%"
-      end
-
-      while @secondary_text[2].to_f - @secondary_color[2].to_f <= 30 do
-        @secondary_text[2] = (@secondary_text[2].to_f + 5).to_s + "%"
-      end
-
-    end
-
-    if @luminosity >= 100
-
-      @bg_color = @colors[0]
-
-      @secondary_color = []
-
-      @bg_color.each do |x|
-        @secondary_color.push(x)
-      end
-
-      @secondary_color[2] = (@secondary_color[2].to_f + 10).to_s + "%"
-
-      @text_color = []
-
-      @colors[3].each do |x|
-        @text_color.push(x)
-      end
-
-      @secondary_text = []
-
-      @colors[1].each do |x|
-        @secondary_text.push(x)
-      end
-
-      while @secondary_color[2].to_f - @bg_color[2].to_f <= 20 do
-        @secondary_color[2] = (@secondary_color[2].to_f + 5).to_s + "%"
-      end
-
-      while @secondary_text[2].to_f - @secondary_color[2].to_f >= 15 do
-        @secondary_text[2] = (@secondary_text[2].to_f - 5).to_s + "%"
-      end
-
-    end
-
   end
 
   # GET /events/new
@@ -110,7 +28,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-
+    set_colors
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -126,7 +44,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
-      if @event.update(event_params)
+      if @event.update(event_params) && @event.update(set_colors)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -151,6 +69,99 @@ class EventsController < ApplicationController
     def set_event
       @event = Event.find(params[:id])
     end
+
+    def set_colors
+      Miro.options[:method] = 'histogram'
+      Miro.options[:color_count] = 4
+      colors_domination = Miro::DominantColors.new('http://localhost:3000/' + @event.image.thumb3.url)
+      colors_hsl = colors_domination.to_hsl.sort {|a,b| b[2] <=> a[2]}
+
+      colors_hsl.each do |hsl|
+        hsl[0] = (hsl[0]*360).to_s
+        hsl[1] = (hsl[1]*100).to_s+"%"
+        hsl[2] = (hsl[2]*100).to_s+"%"
+      end
+
+      luminosity = 0
+
+      colors_hsl.each do |hsl|
+        luminosity += hsl[2].to_f
+      end
+
+      if luminosity <= 100
+        bg_color = colors_hsl[3]
+
+        secondary_color = []
+
+        bg_color.each do |x|
+          secondary_color.push(x)
+        end
+
+        secondary_color[2] = (secondary_color[2].to_f + 10).to_s + "%"
+
+        text_color = []
+
+        colors_hsl[0].each do |x|
+          text_color.push(x)
+        end
+
+        secondary_text = []
+
+        colors_hsl[1].each do |x|
+          secondary_text.push(x)
+        end
+
+        while text_color[2].to_f - bg_color[2].to_f <= 70 do
+          text_color[2] = (text_color[2].to_f + 5).to_s + "%"
+        end
+
+        while secondary_text[2].to_f - secondary_color[2].to_f <= 30 do
+          secondary_text[2] = (secondary_text[2].to_f + 5).to_s + "%"
+        end
+
+      end
+
+      if luminosity >= 100
+
+        bg_color = colors_hsl[0]
+
+        secondary_color = []
+
+        bg_color.each do |x|
+          secondary_color.push(x)
+        end
+
+        secondary_color[2] = (secondary_color[2].to_f + 10).to_s + "%"
+
+        text_color = []
+
+        colors_hsl[3].each do |x|
+          text_color.push(x)
+        end
+
+        secondary_text = []
+
+        colors_hsl[1].each do |x|
+          secondary_text.push(x)
+        end
+
+        while secondary_color[2].to_f - bg_color[2].to_f <= 20 do
+          secondary_color[2] = (secondary_color[2].to_f + 5).to_s + "%"
+        end
+
+        while secondary_text[2].to_f - secondary_color[2].to_f >= 15 do
+          secondary_text[2] = (secondary_text[2].to_f - 5).to_s + "%"
+        end
+      end
+
+      event_colors = {
+        :bg_color => bg_color.join(', '),
+        :secondary_text => secondary_text.join(', '),
+        :text_color => text_color.join(', '),
+        :secondary_color => secondary_color.join(', ')
+      }
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
